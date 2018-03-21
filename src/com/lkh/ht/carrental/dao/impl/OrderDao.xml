@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lkh.ht.carrental.dao.OrderDao" >
+<select id="getOrderById" resultType="com.lkh.ht.carrental.vo.Order">
+    	select
+    	    o.order_id 				orderId,
+    	    o.order_no 				orderNo,
+			o.create_user_id 		createUserId,
+			u.show_name				createUserName,
+			u.user_phone			createUserPhone,
+			o.get_car_type 			getCarType,
+			o.esti_start_date		estiStartDate,
+			o.esti_end_date 		estiEndDate,
+			o.ct_id					ctId,
+			ct.CT_NAME				ctName,
+			ct.CT_IMG_URL			ctImgURL,
+			ct.CT_DESC				ctDesc,
+			ct.ESTIMATE_UNIT_PRICE	estimateUnitPrice,
+			o.totle_esti_amt 		totleEstiAmt,
+			o.dept_id 				deptId,
+			o.addr					addr,
+			o.process_user_id 		processUserId,
+			o.actual_start_date 	actualStartDate,
+			o.car_id				carId,
+			o.actual_end_date 		actualEndDate,
+			o.create_time 			createTime,
+			o.update_time 			updateTime,
+			o.order_status 			orderStatus,
+			o.attr1 				attr1,
+			o.attr2 				attr2 
+    	  from tcar_order_t o
+     left join tcar_user_t u on o.create_user_id=u.user_id
+     left join tcar_car_models_t ct on ct.CT_ID=o.CT_ID
+         where order_id = #{orderId, jdbcType=NUMERIC}
+    </select>
+    <select id="getOrderListByUserId" resultType="com.lkh.ht.carrental.vo.Order">
+    	select
+    	    order_id 			orderId,
+    	    order_no 			orderNo,
+			create_user_id 		createUserId,
+			get_car_type 		getCarType,
+			esti_start_date		estiStartDate,
+			esti_end_date 		estiEndDate,
+			ct_id				ctId,
+			totle_esti_amt 		totleEstiAmt,
+			dept_id 			deptId,
+			addr				addr,
+			process_user_id 	processUserId,
+			actual_start_date 	actualStartDate,
+			car_id				carId,
+			actual_end_date 	actualEndDate,
+			create_time 		createTime,
+			update_time 		updateTime,
+			order_status 		orderStatus,
+			attr1 				attr1,
+			attr2 				attr2 
+    	  from tcar_order_t
+    	  <trim prefix="WHERE" suffixOverrides="AND | OR" >
+            <if test="createUserId != null" >
+        		create_user_id = #{userId, jdbcType=NUMERIC} AND
+            </if>
+            <if test="processUserId != null" >
+        		process_user_id=#{userId, jdbcType=NUMERIC} AND
+            </if>
+          </trim>
+    </select>
+    <select id="getOrderListByDeptId" resultType="com.lkh.ht.carrental.vo.Order">
+    	select
+    	    o.order_id 				orderId,
+    	    o.order_no 				orderNo,
+			o.create_user_id 		createUserId,
+			u.show_name				createUserName,
+			u.user_phone			createUserPhone,
+			o.get_car_type 			getCarType,
+			o.esti_start_date		estiStartDate,
+			o.esti_end_date 		estiEndDate,
+			o.ct_id					ctId,
+			ct.CT_NAME				ctName,
+			ct.CT_IMG_URL			ctImgURL,
+			ct.CT_DESC				ctDesc,
+			ct.ESTIMATE_UNIT_PRICE	estimateUnitPrice,
+			o.totle_esti_amt 		totleEstiAmt,
+			o.dept_id 				deptId,
+			o.addr					addr,
+			o.process_user_id 		processUserId,
+			o.actual_start_date 	actualStartDate,
+			o.car_id				carId,
+			o.actual_end_date 		actualEndDate,
+			o.create_time 			createTime,
+			o.update_time 			updateTime,
+			o.order_status 			orderStatus,
+			o.attr1 				attr1,
+			o.attr2 				attr2 
+    	  from tcar_order_t o
+    	  left join tcar_user_t u on u.user_id=o.create_user_id
+    	  left join tcar_car_models_t ct on ct.CT_ID=o.CT_ID
+    	 where o.dept_id = #{deptId, jdbcType=NUMERIC} 
+    </select>
+    <select id="updateOrderById" resultType="com.lkh.ht.carrental.vo.Order">
+    	update tcar_order_t
+    	   set
+    	   <if test="orderStatus == 'B'">
+    	   		car_id=#{carId, jdbcType=NUMERIC},
+    	   		actual_start_date=#{actualStartDate, jdbcType=Date}
+    	   </if>
+    	   <if test="orderStatus == 'F' ||orderStatus == 'C'">
+    	   		actual_start_date=#{actualStartDate, jdbcType=Date}
+    	   </if>
+    	 where order_id = #{deptId, jdbcType=NUMERIC} 
+    </select>
+</mapper>

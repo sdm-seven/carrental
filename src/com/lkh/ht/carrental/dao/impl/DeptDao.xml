@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lkh.ht.carrental.dao.DeptDao" >
+	<select id="getAllDeptList" resultType="com.lkh.ht.carrental.vo.Dept">
+    	select
+    	    dept_id		deptId,
+			depl_phone	deptPhone,
+			dept_name	deptName,
+			dept_addr	deptAddr
+    	  from tcar_dept_t
+    </select>
+    <select id="getDeptByDeptId" resultType="com.lkh.ht.carrental.vo.Dept">
+    	select
+    	    dept_id		deptId,
+			depl_phone	deptPhone,
+			dept_name	deptName,
+			dept_addr	deptAddr
+    	  from tcar_dept_t
+    	 where dept_id=#{deptId,jdbcType=NUMERIC}
+    </select>
+</mapper>

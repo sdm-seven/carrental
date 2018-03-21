@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lkh.ht.carrental.dao.CarDao" >
+    <select id="getCarListByCtId" resultType="com.lkh.ht.carrental.vo.Car">
+    	select
+    	    CAR_ID			carId,
+			CT_ID			ctId,
+			PLATE_NUMBER	plateNumber
+    	  from tcar_car_t
+    	 where ct_id=#{ctId,jdbcType=NUMERIC}
+    </select>
+</mapper>
